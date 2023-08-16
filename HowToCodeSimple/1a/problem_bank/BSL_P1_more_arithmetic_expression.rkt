@@ -5,3 +5,8 @@
 ; PROBLEM
 ; 
 ; Write two expressions that multiply the numbers 3, 5, and 7.
+
+
+(* 3 5 7)
+
+(* (* 3 5) 7)
