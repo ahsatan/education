@@ -10,4 +10,7 @@
 ; 
 
 
+(require 2htdp/image)
 
+(overlay (triangle 50 "solid" "green")
+         (rotate 180 (triangle 50 "solid" "yellow")))
