@@ -7,3 +7,21 @@
 ; Follow the HtDF recipe to design a function called area that consumes  
 ; the length of one side of a square and produces the area of the square.
 ; 
+
+
+(: area (Number -> Number))
+;; Produce area of square given length of one side.
+
+(check-expect (area 0) 0)
+(check-expect (area 5) 25)
+(check-expect (area 2.2) 4.84)
+
+#;
+(define (area l) 0)
+
+#;
+(define (area l)
+  (... l))
+
+(define (area l)
+  (sqr l))
