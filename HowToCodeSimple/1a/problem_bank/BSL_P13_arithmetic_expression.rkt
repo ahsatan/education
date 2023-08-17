@@ -6,3 +6,6 @@
 ; 
 ; Write an expression that represents the arithmetic expression (7 - 2) * 4.
 ; 
+
+
+(* (- 7 2) 4)
