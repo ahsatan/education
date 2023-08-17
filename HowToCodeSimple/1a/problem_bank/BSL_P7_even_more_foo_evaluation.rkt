@@ -12,3 +12,6 @@
   (string-append s s))
 
 (farfle (substring "abcdef" 0 2))
+(farfle "ab")
+(string-append "ab" "ab")
+"abab"
