@@ -11,3 +11,11 @@
 
 
 (require 2htdp/image)
+
+(define (subtile color) (square 20 "solid" color))
+
+(define SUBTILE_PRIMARY (subtile "blue"))
+(define SUBTILE_SECONDARY (subtile "yellow"))
+
+(above (beside SUBTILE_PRIMARY SUBTILE_SECONDARY)
+       (beside SUBTILE_SECONDARY SUBTILE_PRIMARY))
