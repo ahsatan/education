@@ -13,3 +13,11 @@
 ; 
 
 
+(require 2htdp/image)
+
+(define BASE_WIDTH 20)
+(define HEIGHT (* BASE_WIDTH 2))
+
+(beside (rectangle BASE_WIDTH HEIGHT "solid" "red")
+        (rectangle (* BASE_WIDTH 2) HEIGHT "solid" "white")
+        (rectangle BASE_WIDTH HEIGHT "solid" "red"))
