@@ -8,4 +8,6 @@
 ; 
 
 
-(rectangle 10 solid red)
+(require 2htdp/image)
+
+(rectangle 10 20 "solid" "red")
