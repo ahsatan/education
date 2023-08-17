@@ -6,3 +6,13 @@
 ; 
 ; Write a function that consumes two numbers and produces the larger of the two.
 ; 
+
+
+(check-expect (larger 3 4) 4)
+(check-expect (larger 6 5) 6)
+(check-expect (larger 1 1) 1)
+
+(define (larger a b)
+  (if (> a b)
+      a
+      b))
