@@ -8,3 +8,10 @@
 ; 
 ;                                   .
 ; 
+
+
+(require 2htdp/image)
+
+(overlay (star 10 "solid" "blue")
+         (star  25 "solid" "yellow")
+         (star 40 "solid" "blue"))
