@@ -10,3 +10,12 @@
 
 (: pluralize (String -> String))
 ;; Pluralizes given string by appending "s" to the end.
+
+#;
+(define (pluralize s) s)
+
+#;
+(define (pluralize s) "")
+
+#;
+(define (pluralize s) "s")
