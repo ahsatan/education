@@ -20,5 +20,9 @@
 #;
 (define (double n) 0)
 
+#;
 (define (double n)
-  (* (2 n)))
+  (... n))
+
+(define (double n)
+  (* 2 n))
