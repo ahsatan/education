@@ -7,3 +7,22 @@
 ; Follow the HtDF recipe to design a function that consumes a string, and adds "?" 
 ; to the end unless the string already ends in "?".  Assume given string length > 0.
 ; 
+
+
+(: ensure-question (String -> String))
+;; Return the given string with a '?' at the end, only adding one if not already there.
+
+(check-expect (ensure-question "help") "help?")
+(check-expect (ensure-question "why?") "why?")
+
+#;
+(define (ensure-question s) s)
+
+#;
+(define (ensure-question s)
+  (... s))
+
+(define (ensure-question s)
+  (if (string=? "?" (string-ith s (- (string-length s) 1)))
+      s
+      (string-append s "?")))
