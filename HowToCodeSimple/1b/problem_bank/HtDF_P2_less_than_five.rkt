@@ -7,3 +7,21 @@
 ; Follow the HtDF recipe to design a function that consumes a string and
 ; determines whether its length is less than 5.
 ; 
+
+
+(: length-less-than-5? (String -> Boolean))
+;; Produce #true if the given string's length is less than 5.
+
+(check-expect (length-less-than-5? "fancypants") #false)
+(check-expect (length-less-than-5? "fancy") #false)
+(check-expect (length-less-than-5? "orca") #true)
+
+#;
+(define (length-less-than-5? s) s)
+
+#;
+(define (length-less-than-5? s)
+  (... s))
+
+(define (length-less-than-5? s)
+  (> 5 (string-length s)))
