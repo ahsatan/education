@@ -10,3 +10,19 @@
 ;    (summon "portkey")  should produce "accio portkey"
 ;    (summon "broom")    should produce "accio broom"
 ; 
+
+
+(: summon (String -> String))
+;; Produce the Harry Potter spell to summon the given item.
+
+(check-expect (summon "Firebolt") "accio Firebolt")
+
+#;
+(define (summon s) s)
+
+#;
+(define (summon s)
+  (... s))
+
+(define (summon s)
+  (string-append "accio" " " s))
