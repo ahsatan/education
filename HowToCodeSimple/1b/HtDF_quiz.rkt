@@ -7,3 +7,25 @@
 ; Follow the HtDF recipe to design a function that consumes two images and
 ; produces #true if the first is larger than the second.
 ; 
+
+
+(require 2htdp/image)
+(define Image (signature (predicate image?)))
+
+(: larger? (Image Image -> Boolean))
+;; Produce #true if the first image is larger than the second image, otherwise #false.
+
+(check-expect (larger? (square 10 "solid" "red") (square 11 "solid" "red")) #false)
+(check-expect (larger? (rectangle 10 15 "solid" "green") (rectangle 15 10 "solid" "green")) #false)
+(check-expect (larger? (circle 5 "solid" "gold") (circle 4 "solid" "gold")) #true)
+
+#;
+(define (larger? i1 i2) #false)
+
+#;
+(define (larger? i1 i2)
+  (... i1 i2))
+
+(define (larger? i1 i2)
+  (> (* (image-width i1) (image-height i1))
+     (* (image-width i2) (image-height i2))))
