@@ -13,7 +13,7 @@
 (define Image (signature (predicate image?)))
 
 (: larger? (Image Image -> Boolean))
-;; Produce #true if the first image is larger than the second image, otherwise #false.
+;; Produce #true if the first image's area is larger than the second image, otherwise #false.
 
 (check-expect (larger? (square 10 "solid" "red") (square 11 "solid" "red")) #false)
 (check-expect (larger? (rectangle 10 15 "solid" "green") (rectangle 15 10 "solid" "green")) #false)
