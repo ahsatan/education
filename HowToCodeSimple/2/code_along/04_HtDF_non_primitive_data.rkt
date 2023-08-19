@@ -9,12 +9,28 @@
 ; 
 
 
-;; (: CityName String)
+(define CityName (signature String))
 ;; interp. name of a city
 
 (define CN1 "Boston")
-(define CN2 "Vancouver")
+(define CN_BEST "Kyoto")
 
 #;
 (define (fn-for-city-name cn)
   (... cn))
+
+(: best? (CityName -> Boolean))
+;; Produce #true if the given city is "Kyoto".
+
+(check-expect (best? CN1) #false)
+(check-expect (best? CN_BEST) #true)
+
+#;
+(define (best? cn) #false)
+
+#;
+(define (best? cn)
+  (... cn))
+
+(define (best? cn)
+  (string=? CN_BEST cn))
