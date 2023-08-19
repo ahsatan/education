@@ -22,12 +22,18 @@
 (define (aspect-ratio img)
   (... img))
 
+#;
 (define (aspect-ratio img)
   (if (> (image-height img) (image-width img))
       "tall"
       (if (= (image-height img) (image-width img))
           "square"
           "wide")))
+
+(define (aspect-ratio i)
+  (cond [(> (image-height i) (image-width i)) "tall"]
+        [(= (image-height i) (image-width i)) "square"]
+        [else "wide"]))
 
 ; 
 ; PROBLEM
@@ -42,3 +48,15 @@
         [else 0]))
 
 (absval -3)
+(cond [(> -3 0) -3]
+      [(< -3 0) (* -1 -3)]
+      [else 0])
+(cond [#false -3]
+      [(< -3 0) (* -1 -3)]
+      [else 0])
+(cond [(< -3 0) (* -1 -3)]
+      [else 0])
+(cond [#true (* -1 -3)]
+      [else 0])
+(* -1 -3)
+3
