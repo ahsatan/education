@@ -7,3 +7,17 @@
 ; Design a data definition to represent the letter grade
 ; in a course which is one of A, B, or C.
 ;   
+
+
+(define A "A")
+(define B "B")
+(define C "C")
+
+(define LetterGrade (signature (enum A B C)))
+;; interp. Letter grade for a course.
+
+#;
+(define (fn-for-letter-grade lg)
+  (cond [(string=? A lg) (...)]
+        [(string=? B lg) (...)]
+        [(string=? C lg) (...)]))
