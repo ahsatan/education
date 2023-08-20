@@ -37,6 +37,6 @@
 
 #;
 (define (fn-for-nye-countdown nyecd)
-  (cond [(waiting? nyecd) (...)]
-        [(10-1? nyecd) (... nyecd)]
-        [(complete? nyecd) (...)]))
+  (cond [(and (boolean? nyecd) (waiting? nyecd)) (...)]
+        [(and (number? nyecd) (10-1? nyecd)) (... nyecd)]
+        [(else) (...)]))
