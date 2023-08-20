@@ -19,11 +19,8 @@
 (define SeatNum (signature (predicate 1-32?)))
 ;; interp. Seat number in a theatre row, 1 and 32 are aisle seats.
 
-(: SN1 SeatNum)
 (define SN1 1)
-(: SN2 SeatNum)
 (define SN2 13)
-(: SN3 SeatNum)
 (define SN3 32)
 
 #;
