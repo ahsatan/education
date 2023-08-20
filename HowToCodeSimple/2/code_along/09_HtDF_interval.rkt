@@ -2,10 +2,9 @@
 ;; about the language level of this file in a form that our tools can easily process.
 #reader(lib "htdp-intermediate-reader.ss" "lang")((modname 09_HtDF_interval) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
 ; 
-; PROBLEM:
+; PROBLEM
 ; 
-; Using the SeatNum data definition below design a function
-; that produces true if the given seat number is on the aisle. 
+; Design a function that produces #true if the given seat number is on the aisle.
 ; 
 
 
