@@ -3,164 +3,107 @@
 
 (* Produce the given list with duplicates removed. *)
 (* int list -> int list *)
-fun remove_dupes(loi : int list) =
-    if null loi
-    then []
-    else
-        let
-            fun is_dupe(loi : int list, i : int) =
-                not(null loi) andalso (((hd loi) = i) orelse is_dupe(tl loi, i))
-            val remove_dupes_tl = remove_dupes(tl loi)
-        in
-            if is_dupe(remove_dupes_tl, hd loi)
-            then remove_dupes_tl
-            else (hd loi) :: remove_dupes_tl
-        end
+fun remove_dupes xs = foldl (fn (x, acc) => if List.exists (fn y => x = y) acc
+                                                         then acc
+                                                         else x :: acc)
+                                         []
+                                         xs
 
 (* Produce true if date1 is before date2, otherwise false. *)
 (* fn : (int * int * int) * (int * int * int) -> bool *)
-fun is_older (date1 : int * int * int, date2 : int * int * int) =
-    (#1 date1 < #1 date2) orelse (* date1 year is older *)
-    ((#1 date1 = #1 date2) andalso ((#2 date1 < #2 date2) orelse (* same year and date1 month is older *)
-                                    ((#2 date1 = #2 date2) andalso (#3 date1 < #3 date2)))) (* same year and month and date1 day is older *)
+fun is_older ((y1, m1, d1), (y2, m2, d2)) =
+    y1 < y2 orelse (* date1 year is older *)
+    (y1 = y2 andalso (m1 < m2 orelse (* same year and date1 month is older *)
+                                    (m1 = m2 andalso d1 < d2))) (* same year and month and date1 day is older *)
 
 (* Produce the number of dates where the date's month is the given month. *)
 (* fn : (int * int * int) list * int -> int *)
-fun number_in_month (dates : (int * int * int) list, month : int) =
-    if null dates
-    then 0
-    else
-        let
-            val number_in_tl = number_in_month(tl dates, month)
-         in
-            if (#2 (hd dates)) = month
-            then 1 + number_in_tl
-            else number_in_tl
-        end
+fun number_in_month (ds, m) = foldl (fn ((_, m', _), acc) => if m = m' then acc + 1 else acc) 0 ds
 
 (* Produce the number of dates where the date's month is ANY of the given months.
    - ASSUME: Each month in months is unique. *)
 (* fn : (int * int * int) list * int list -> int *)
-fun number_in_months (dates : (int * int * int) list, months : int list) =
-    if null months
-    then 0
-    else number_in_month(dates, hd months) + number_in_months(dates, tl months)
+                                     (* CAN I DO op+ o number_in_month *)
+fun number_in_months (ds, ms) = foldl (fn (m, acc) => number_in_month (ds, m) + acc) 0 ms
 
 (* Produce the number of dates where the date's month is ANY of the given months. *)
 (* fn : (int * int * int) list * int list -> int *)
-fun number_in_months_challenge (dates : (int * int * int) list, months : int list) =
-    number_in_months(dates, remove_dupes(months))
+fun number_in_months_challenge (ds, ms) = number_in_months (ds, remove_dupes ms)
 
 (* Produce a list of dates where the date's month is the given month. *)
 (* fn : (int * int * int) list * int -> (int * int * int) list *)
-fun dates_in_month (dates : (int * int * int) list, month : int) =
-    if null dates
-    then []
-    else
-        let
-            val dates_in_tl = dates_in_month(tl dates, month)
-        in
-            if (#2 (hd dates)) = month
-            then (hd dates) :: dates_in_tl
-            else dates_in_tl
-        end
+fun dates_in_month (ds, m) = foldr (fn ((y, m', d), acc) => if m = m' then (y, m', d) :: acc else acc) [] ds
 
 (* Produce a list of dates where the date's month is in ANY of the given months.
    - ASSUME: Each month in months is unique. *)
 (* fn : (int * int * int) list * int list -> (int * int * int) list *)
-fun dates_in_months (dates : (int * int * int) list, months : int list) =
-    if null months
-    then []
-    else dates_in_month(dates, hd months) @ dates_in_months(dates, tl months)
+fun dates_in_months (ds, ms) = foldr (fn (m, acc) => dates_in_month (ds, m) @ acc) [] ms
 
 (* Produce a list of dates where the date's month is in ANY of the given months. *)
 (* fn : (int * int * int) list * int list -> (int * int * int) list *)
-fun dates_in_months_challenge (dates : (int * int * int) list, months : int list) =
-    dates_in_months(dates, remove_dupes(months))
+fun dates_in_months_challenge (ds, ms) = dates_in_months (ds, remove_dupes ms)
 
 (* Produce the (1-based) nth element in the list.
    - ASSUME: list has at least n elements, n >= 1 *)
 (* string list * int -> string *)
-fun get_nth (los : string list, n : int) =
-    if n = 1
-    then hd los
-    else get_nth(tl los, n - 1)
+fun get_nth (x :: xs, n) =
+    case n of
+        1 => x
+      | _ => get_nth (xs, n - 1)
 
 (* Produce a text representation of a date of the form "January 20, 2013"
    - ASSUME: The date's month is valid, i.e. [1, 12]. *)
 (* int * int * int -> string *)
-fun date_to_string (date : int * int * int) =
+fun date_to_string (y, m, d) =
     let
         val month_names = ["January", "February", "March", "April", "May", "June",
                            "July", "August", "September", "October", "November", "December"]
     in
-        get_nth(month_names, #2 date) ^ " " ^ Int.toString(#3 date) ^ ", " ^ Int.toString(#1 date)
+        get_nth(month_names, m) ^ " " ^ Int.toString(d) ^ ", " ^ Int.toString(y)
     end
 
 (* Produce the number n such that the first n elements of nats add up to < sum and
    the first n + 1 elements add up to >= sum.
    - ASSUME: The entire list of numbers adds up to >= sum.  All numbers are > 0 (natural numbers). *)
 (* int * int list -> int *)
-fun number_before_reaching_sum (sum : int, nats : int list) =
-    if sum <= (hd nats)
-    then 0
-    else 1 + number_before_reaching_sum(sum - (hd nats), tl nats)
+fun number_before_reaching_sum (sum, x :: xs) =
+    if sum <= x then 0 else 1 + number_before_reaching_sum (sum - x, xs)
 
 (* Produce the month of the year that the given day of the year falls within.
    - ASSUME: The day of the year is valid, i.e. [1, 365]. *)
 (* int -> int *)
-fun what_month (day_of_year : int) =
+fun what_month doy =
     let
         val month_days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     in
-        1 + number_before_reaching_sum(day_of_year, month_days)
+        1 + number_before_reaching_sum(doy, month_days)
     end
 
 (* Produce a list of the month of each day from day_of_year1 to day_of_year2, inclusive. *)
 (* int * int -> int list *)
-fun month_range (day_of_year1 : int, day_of_year2 : int) =
-    if day_of_year1 > day_of_year2
-    then []
-    else what_month(day_of_year1) :: month_range(day_of_year1 + 1, day_of_year2)
+fun month_range (doy1, doy2) =
+    let
+        fun days doy1 = if doy1 > doy2 then [] else doy1 :: days (doy1 + 1)
+    in
+        map what_month (days doy1)
+    end
 
 (* Produce the oldest date option from the given list or NONE if given an empty list. *)
 (* (int * int * int) list -> (int * int * int) option *)
-fun oldest (dates : (int * int * int) list) =
-    if null dates
-    then NONE
-    else
-        let
-            (* Shadows outer oldest function. *)
-            fun oldest (dates : (int * int * int) list) =
-                if null (tl dates)
-                then hd dates
-                else
-                    let
-                        val rest_oldest = oldest (tl dates)
-                    in
-                        if is_older(hd dates, rest_oldest)
-                        then hd dates
-                        else rest_oldest
-                    end
-        in
-            SOME (oldest(dates))
-        end
+val oldest = foldl (fn (x, y) => case y of
+                                     SOME v => if is_older (x, v) then SOME x else y
+                                   | NONE => SOME x)
+                   NONE
 
 (* Produce true if the date is a real date in the common era. *)
 (* int * int * int -> bool *)
-fun reasonable_date(date: int * int * int) =
+fun reasonable_date (y, m, d) =
     let
-        fun divisible (num : int, denom : int) = num mod denom = 0
-        fun days_in_month (month_days : int list, month : int) =
-            if month = 1
-            then hd month_days
-            else days_in_month(tl month_days, month - 1)
-        val is_leap_year = divisible(#1 date, 400) orelse
-                           (divisible(#1 date, 4) andalso not(divisible(#1 date, 100)))
-        val feb_days = if is_leap_year then 29 else 28
-        val month_days = [31, feb_days, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+        val leap_year = y mod 400 = 0 orelse (y mod 4 = 0 andalso y mod 100 <> 0)
+
+        val month_days = [31, if leap_year then 29 else 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     in
-        #1 date > 0 andalso
-        #2 date >= 1 andalso #2 date <= 12 andalso
-        #3 date >= 1 andalso #3 date <= days_in_month(month_days, #2 date)
+        y > 0 andalso
+        m >= 1 andalso m <= 12 andalso
+        d >= 1 andalso d <= get_nth(month_days, m)
     end

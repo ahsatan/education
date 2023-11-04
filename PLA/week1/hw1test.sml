@@ -1,14 +1,12 @@
 use "hw1.sml";
 
-(* Homework1 Simple Test *)
-(* These are basic test cases. Passing these tests does not guarantee that your code will pass the actual homework grader *)
-(* To run the test, add a new line to the top of this file: use "homeworkname.sml"; *)
-(* All the tests should evaluate to true. For example, the REPL should say: val test1 = true : bool *)
+(* All the tests should evaluate to true. For example, the REPL should say: val test0_a = true : bool *)
 
 val test0_a = remove_dupes ([]) = []
 val test0_b = remove_dupes ([3]) = [3]
 val test0_c = remove_dupes ([3,3]) = [3]
 val test0_d = remove_dupes ([2,3,2,3,2]) = [3,2]
+val test0_e = remove_dupes ([2,3,4,3,1]) = [1,4,3,2]
 
 val test1_a = is_older ((1,2,3),(2,3,4)) = true
 val test1_b = is_older ((1,2,3),(1,2,3)) = false
@@ -42,7 +40,7 @@ val test5_d = dates_in_months ([],[1,2,3,4,5,6,7,8,9,10,11,12]) = []
 val test5_e = dates_in_months ([(2012,2,28),(2013,12,1),(2011,3,31),(2011,4,28)],[]) = []
 val test5_f = dates_in_months ([],[]) = []
 
-val chtest_2 = dates_in_months_challenge ([(2012,2,28),(2013,12,1),(2011,3,31),(2011,4,28)],[2,3,4,2,3]) = [(2011,4,28),(2012,2,28),(2011,3,31)]
+val chtest_2 = dates_in_months_challenge ([(2012,2,28),(2013,12,1),(2011,3,31),(2011,4,28)],[2,3,4,2,3]) = [(2011,4,28),(2011,3,31),(2012,2,28)]
 
 val test6_a = get_nth (["hi", "there", "how", "are", "you"], 2) = "there"
 val test6_b = get_nth (["hi", "there", "how", "are", "you"], 1) = "hi"
