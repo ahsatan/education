@@ -144,3 +144,5 @@ fun typecheck_patterns (cs, ps) =
     in
         SOME (foldl mlt Anything (map to_type ps)) handle _ => NONE
     end
+
+(* typecheck_patterns: Your function fails when there is no typ that all the patterns in the list can have. *)
