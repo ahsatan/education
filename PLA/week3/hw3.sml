@@ -122,8 +122,15 @@ fun first_match v ps = SOME (first_answer (fn p => match (v, p)) ps) handle NoAn
    - Confusingly worded but the first parameter is ONLY needed for type-checking ConstructorP. *)
 fun typecheck_patterns (cs, ps) =
     let
+        fun mlt (t1, t2) =
+            case (t1, t2) of
+                (TupleT ts1, TupleT ts2) => TupleT (map mlt (ListPair.zipEq (ts1, ts2)))
+              | (Anything, t) => t
+              | (t, Anything) => t
+              | (t1, t2) => if t1 = t2 then t1 else raise NoAnswer
+
         fun to_dtype n t =
-            case (List.find (fn (cn, _, ct) => cn = n andalso t = ct) cs) of
+            case (List.find (fn (cn, _, ct) => cn = n andalso (mlt (ct, t) ; true)) cs) of
                 SOME (_, dn, _) => dn
               | NONE => raise NoAnswer
 
@@ -134,15 +141,6 @@ fun typecheck_patterns (cs, ps) =
               | TupleP ps => TupleT (map to_type ps)
               | ConstructorP (n, p) => Datatype (to_dtype n (to_type p))
               | _ => Anything
-
-        fun mlt (t1, t2) =
-            case (t1, t2) of
-                (TupleT ts1, TupleT ts2) => TupleT (map mlt (ListPair.zipEq (ts1, ts2)))
-              | (Anything, t) => t
-              | (t, Anything) => t
-              | (t1, t2) => if t1 = t2 then t1 else raise NoAnswer
     in
         SOME (foldl mlt Anything (map to_type ps)) handle _ => NONE
     end
-
-(* typecheck_patterns: Your function fails when there is no typ that all the patterns in the list can have. *)

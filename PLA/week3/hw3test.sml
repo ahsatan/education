@@ -114,7 +114,7 @@ val test13_a = typecheck_patterns ([("foo","bar",IntT)],
 val test13_b = typecheck_patterns ([],
                                   [TupleP[Wildcard,TupleP[Wildcard,Wildcard]],TupleP[ConstP 12,Wildcard]]) =
                SOME (TupleT[IntT,TupleT[Anything,Anything]])
-val test13_c = typecheck_patterns ([], [UnitP,TupleP[Wildcard,Wildcard],ConstP 1]) = NONE
+val test13_c = typecheck_patterns ([],[UnitP,TupleP[Wildcard,Wildcard],ConstP 1]) = NONE
 val test13_d = typecheck_patterns ([("foo","bar",IntT),("baz","bin",UnitT)],
                                   [ConstructorP("foo",ConstP 1),ConstructorP("baz",UnitP)]) = NONE
 val test13_e = typecheck_patterns ([("foo","bar",Datatype "bin"),("baz","bin",UnitT)],
@@ -122,3 +122,10 @@ val test13_e = typecheck_patterns ([("foo","bar",Datatype "bin"),("baz","bin",Un
 val test13_f = typecheck_patterns ([("foo","bar",IntT),("baz","bar",UnitT)],
                                   [ConstructorP("foo",ConstP 7),ConstructorP("baz",UnitP)]) =
                SOME (Datatype "bar")
+val test13_g = typecheck_patterns ([("SOME","foo",IntT)],
+                                   [ConstP 10,Variable "a",ConstructorP("SOME",Variable "x")]) = NONE
+val test13_h = typecheck_patterns ([("Empty","list",UnitT),("List","list",(TupleT[Anything,Datatype "list"]))],
+                                   [ConstructorP("Empty", UnitP),
+                                    ConstructorP("List", TupleP[ConstP 1, Variable "xs"]),
+                                    ConstructorP("List", TupleP[  UnitP , Variable "xs"]),
+                                    Wildcard]) = SOME (Datatype "list")
