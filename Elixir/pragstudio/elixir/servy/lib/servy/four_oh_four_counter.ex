@@ -31,8 +31,8 @@ defmodule Servy.GenServer2 do
         new_state = callback_module.handle_cast message, state
         listen_loop new_state, callback_module
       unexpected ->
-        IO.puts "Unexpected message: #{inspect unexpected}"
-        listen_loop state, callback_module
+        new_state = callback_module.handle_info unexpected, state
+        listen_loop new_state, callback_module
     end
   end
 end
@@ -47,11 +47,11 @@ defmodule Servy.FourOhFourCounter do
   end
 
   def bump_count(path) do
-    GenServer2.call @name {:bump_count, path}
+    GenServer2.call @name, {:bump_count, path}
   end
 
   def get_count(path) do
-    GenServer2.call @name {:get_count, path}
+    GenServer2.call @name, {:get_count, path}
   end
 
   def get_counts do
@@ -77,7 +77,12 @@ defmodule Servy.FourOhFourCounter do
     {state, state}
   end
 
-  def handle_cast(:reset, state) do
+  def handle_cast(:reset, _state) do
     %{}
+  end
+
+  def handle_info(message, state) do
+    IO.puts "Unexpected message: #{inspect message}"
+    state
   end
 end

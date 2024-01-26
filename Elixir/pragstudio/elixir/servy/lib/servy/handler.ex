@@ -9,8 +9,6 @@ defmodule Servy.Handler do
   alias Servy.View
   alias Servy.BearController
   alias Servy.PledgeController
-  alias Servy.VideoCam
-  alias Servy.Tracker
   alias Servy.FourOhFourCounter
 
   # mix always uses root project directory as cwd
@@ -57,17 +55,9 @@ defmodule Servy.Handler do
   end
 
   defp route(%Conv{method: "GET", path: "/sensors"} = conv) do
-    bf_task = Task.async(fn -> Tracker.get_location("bigfoot") end)
+    data = Servy.SensorServer.get_sensor_data()
 
-    snapshots =
-    1..3
-    # instead of anon function, can pass MFA (module, function, args) to certain functions
-    |> Enum.map(&Task.async(VideoCam, :get_snapshot, ["cam-#{&1}"]))
-    |> Enum.map(&Task.await/1)
-
-    bf_tracker = Task.await(bf_task)
-
-    View.render(conv, "sensors.eex", snapshots: snapshots, tracker: bf_tracker)
+    View.render(conv, "sensors.eex", snapshots: data.snapshots, tracker: data.tracker)
   end
 
   # same arity function clauses pattern match (clunkier than haskell/ML PM)
