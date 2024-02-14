@@ -132,6 +132,7 @@ length' xs = sum [1 | _ <- xs]
 keepLowers :: String -> String
 keepLowers s = [c | c <- s, c `elem` ['a' .. 'z']] -- keep only lowercase letters of a string
 
+removeOdds :: (Integral a) => [[a]] -> [[a]]
 removeOdds xss = [[x | x <- xs, even x] | xs <- xss] -- removes odd numbers from sub-lists without flattening
 
 -- multi-list comprehensions

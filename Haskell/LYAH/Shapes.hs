@@ -2,8 +2,8 @@
 --   value constructors are functions that take the given types (can pattern match) and return TypeName
 
 module Shapes
-  ( Point (..),
-    Shape (..), -- If exclude could only make Shape with base funcs; could also only publicly share a subset like: Shape (Circle)
+  ( Point (..), -- (..) exports all value constructors, could also export only a selection: TypeName (ConstructorName1, ..., ConstructorNameN)
+    Shape (..), -- If exclude value constructors (no parens after TypeName), could only make Shapes with exposed funcs, e.g. baseCircle, and can't pattern match
     surface,
     nudge,
     baseCircle,

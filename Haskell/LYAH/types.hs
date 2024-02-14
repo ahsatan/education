@@ -41,6 +41,7 @@ r2 :: [Int]
 r2 = read "[1, 2, 3, 4]" :: [Int]
 
 -- error, mismatching types, even though both Num: (5 :: Int) * (6 :: Integer)
+y :: Integer
 y = 5 * (6 :: Integer) -- 30, ok because whole numbers (e.g. 5) can act as any Num type
 
 -- useful function: fromIntegral :: (Num b, Integral a) => a -> b
